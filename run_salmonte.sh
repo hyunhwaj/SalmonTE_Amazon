@@ -1,6 +1,13 @@
 #!/bin/bash
-ID="SRR601925"
+
+
+
+ID=$1
+
+# specify the path of the key
 KEY_PWD="$PWD/key.ngc"
+S3_DIR="s3://p1apr18/SalmonTE_GTEX"
+
 
 if [ ! -d "$PWD/sratoolkit.2.9.2-ubuntu64" ]; then
     echo "Downloading sratoolkit..."
@@ -24,10 +31,11 @@ fi
 if [ ! -d "$PWD/SalmonTE" ]; then
     echo "cloning SalmonTE..."
     git clone https://github.com/hyunhwaj/SalmonTE
-    pip3 install snakemake docopt pandas --user
+    pip3 install snakemake==5.1.5 docopt pandas --user
 else
     echo "SalmonTE has been cloned, and it will not be downloaded again."
 fi
 
 echo "Running SalmonTE... for $ID"
 python3 SalmonTE/SalmonTE.py quant --reference=hs $PWD/fastq/*.fastq
+aws s3 cp $PWD/SalmonTE_output/$ID/quant.sf $S3_DIR/$ID.sf

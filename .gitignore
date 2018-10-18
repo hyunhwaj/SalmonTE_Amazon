@@ -4,3 +4,5 @@ sratoolkit.2.9.2-ubuntu64/
 sra/
 sratoolkit.2.9.2-ubuntu64.tar.gz
 fastq/
+.snakemake/
+SalmonTE_output/
